@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  doctype html
+  html(lang='en')
+    head
+      meta(charset='UTF-8')
+      title Inja
+      meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+      link(href='https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css', rel='stylesheet', type='text/css')
+      script(src='https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js', type='text/javascript')
+      link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+    body
+      div(dir='rtl')
+        #map(style='width: 100%; height: 100vh; background: #eee; border: 2px solid #aaa;')
+        form#addNnewLocation.f-hidden
+          .form-group
+            label(for='store')
+              | نام داروخانه / فروشگاه
+            input#store.form-control(type='text')
+          .form-group.form-check.d-flex.flex-column
+            div
+              label.form-check-label(for='breathing-mask')
+                | ماسک
+              input#breathing-mask.form-check-input(type='checkbox')
+            div
+              label.form-check-label(for='antibacterial-hand-gel')
+                | ژل ضدعفونی کننده
+              input#antibacterial-hand-gel.form-check-input(type='checkbox')
+            div
+              label.form-check-label(for='liquid-antibacterial')
+                | مایع ضد عفونی کننده
+              input#liquid-antibacterial.form-check-input(type='checkbox')
+            div
+              label.form-check-label(for='latex-gloves')
+                | دستکش
+              input#latex-gloves.form-check-input(type='checkbox')
+          .form-group
+            label(for='description') اگر توضیح می‌خوای بدی
+            textarea#description.form-control
+          .btn.btn-primary.js-submit-form افزودن
+        .my-location.js-my-location
+      script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js', integrity='sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n', crossorigin='anonymous')
+      script(src='../public/javascripts/index.js', type='text/javascript')
+

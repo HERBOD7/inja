@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Inja</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" type="text/css">
+        <script src="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            form {
+                position: absolute;
+                border-radius: 8px;
+                background-color: white;
+                top: 5%;
+                right: 5%;
+                z-index: 400;
+                display: flex;
+                flex-direction: column;
+                padding: 10px;
+                text-align: right;
+            }
+            
+            .f-hidden {
+                display: none !important;
+            }
+
+            .error {
+                border: 1px solid tomato;
+                background-color: rgb(252, 216, 209);;
+            }
+
+            .my-location {
+                background: url(./myLocation.svg) no-repeat 50%;
+                background-color: white;
+                height: 50px;
+                width: 50px;
+                position: absolute;
+                z-index: 400;
+                bottom: 5%;
+                left: 2%;
+                border-radius: 8px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div dir="rtl">
+            <div id="map" style="width: 100%; height: 100vh; background: #eee; border: 2px solid #aaa;"></div>
+            <form class="f-hidden" id='addNnewLocation'>
+                <div class="form-group">
+                    <label for="store">
+                        نام داروخانه / فروشگاه
+                    </label>
+                    <input type="text" class="form-control" id="store">
+                </div>
+                <div class="form-group form-check d-flex flex-column">
+
+                    <div>
+                        <label class="form-check-label" for="breathing-mask">
+                            ماسک
+                        </label>
+                        <input type="checkbox" class="form-check-input" id="breathing-mask" />
+                    </div>
+
+                    <div>
+                        <label class="form-check-label" for="antibacterial-hand-gel">
+                            ژل ضدعفونی کننده
+                        </label>
+                        <input type="checkbox" class="form-check-input" id="antibacterial-hand-gel" />
+                    </div>
+
+                    <div>
+                        <label class="form-check-label" for="liquid-antibacterial">
+                            مایع ضد عفونی کننده
+                        </label>
+                        <input type="checkbox" class="form-check-input" id="liquid-antibacterial" />
+                    </div>
+                    
+                    <div>
+                        <label class="form-check-label" for="latex-gloves">
+                            دستکش
+                        </label>
+                        <input type="checkbox" class="form-check-input" id="latex-gloves" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">اگر توضیح می‌خوای بدی</label>
+                    <textarea class="form-control" id="description"></textarea>
+                  </div>
+                <div class="btn btn-primary js-submit-form">افزودن</div>
+            </form>
+            <div class="my-location js-my-location"></div>
+        </div>
+        
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="../jDate.js" type="text/javascript">
+            // $.ajax({
+            //     url: 'https://api.neshan.org/v1/map-matching?path=36.299394,59.606211|36.297950,59.604258|36.297206,59.603507',
+            //     type: 'get',
+            //     data : {
+            //         key : 'web.N2p0OPRuBKwSFdptFFkgeEZZf95OMr4AtuBijsMV',
+            //     },
+            //     success : function (res) {
+            //         console.log(res)
+            //     }
+            // });
+
+            var currentLatitude = 35.699739;
+            var currentLongitude = 51.338097;
+
+            var myMap = new L.Map('map', {
+                key: 'web.N2p0OPRuBKwSFdptFFkgeEZZf95OMr4AtuBijsMV',
+                maptype: 'dreamy',
+                poi: true,
+                traffic: false,
+                center: [currentLatitude, currentLongitude],
+                zoom: 14
+            });
+
+            $('.js-my-location').on('click', function(){
+                navigator.geolocation.getCurrentPosition(function(location) {
+                    currentLatitude = location.coords.latitude;
+                    currentLongitude = location.coords.longitude;
+                    var a = 35.77111692031879;
+                    var b = 51.42408974468709;
+                    myMap.setView([a.toFixed(6), b.toFixed(6)], 14);
+
+                });
+            });
+            
+
+            var data = [{lat: 35.699739, long: 51.338097}, {lat: 35.701139, long: 51.350107}, {lat: 35.504739, long: 51.33860}]
+            
+            for(i of data){
+                L.marker([i.lat, i.long]).addTo(myMap).bindPopup(`<b>inja: ${i.lat}</b><br>mask dare`).openPopup();
+            }
+
+            // marker.bindPopup(`<b>inja: ${currentLatitude}</b><br>mask dare`).openPopup();
+            // L.marker([35.692855, 51.324090]).bindLabel('Look revealing label!', { clickable: true }).addTo(myMap);
+            // newM = bindPopup(`<b>inja: 35.692855</b><br>mask dare`).openPopup();
+            // myMap.setView([35.699739, 51.338097], 13);
+
+            var add;
+            myMap.on('click', function(e) {
+                if(add){
+                    myMap.removeLayer(add);
+                }
+                add = L.marker(e.latlng).addTo(myMap);
+                $('#addNnewLocation').removeClass('f-hidden');
+            });
+        </script>
+    </body>
+</html>

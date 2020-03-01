@@ -1,0 +1,31 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        title JS 208
+        link(rel='stylesheet', href='css/normalize.css')
+        link(rel='stylesheet', href='css/style.css')
+    body
+        #preloader
+            .box LOADING ...
+        .container
+            h1 Search Actors By Last Name
+            form(action='', method='post')
+                select#letter-selection(name='q')
+                    - for(i=97; i < 123; i++)
+                        option(value=String.fromCharCode(i))= String.fromCharCode(i)
+                input(type='submit', value='send')
+            .actor-list
+                script#actor-list-template(type='text/x-handlebars-template').
+                    <ul>
+                    {{#each this}}
+                        <li data-actor_id="{{this.actor_id}}"><a href="#" >{{this.first_name}} {{this.last_name}}</a></li>
+                    {{/each}}
+                    </ul>
+            .actor_info
+                script#actor-info-template(type='text/x-handlebars-template').
+                    <p>{{film_info}}</p>
+                    <span class="close">X</span>
+        script(src='js/jquery.js')
+        script(src='js/handlebars.js')
+        script(src='js/scripts.js')
